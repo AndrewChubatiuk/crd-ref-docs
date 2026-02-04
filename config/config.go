@@ -54,8 +54,9 @@ type ProcessorConfig struct {
 }
 
 type Marker struct {
-	Name   string
-	Target TargetType
+	Name     string
+	Target   TargetType
+	HasValue bool `json:"hasValue"`
 }
 
 type TargetType string
