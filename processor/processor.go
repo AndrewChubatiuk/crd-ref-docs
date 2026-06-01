@@ -27,8 +27,8 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/elastic/crd-ref-docs/config"
-	"github.com/elastic/crd-ref-docs/types"
+	"github.com/AndrewChubatiuk/crd-ref-docs/config"
+	"github.com/AndrewChubatiuk/crd-ref-docs/types"
 	"go.uber.org/zap"
 	"golang.org/x/tools/go/packages"
 	"k8s.io/apimachinery/pkg/runtime/schema"

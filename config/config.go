@@ -41,16 +41,16 @@ const (
 )
 
 type ProcessorConfig struct {
-	MaxDepth            int                `json:"maxDepth"`
-	IgnoreTypes         []string           `json:"ignoreTypes"`
-	IgnoreFields        []string           `json:"ignoreFields"`
-	IgnoreGroupVersions []string           `json:"ignoreGroupVersions"`
-	UseRawDocstring     bool               `json:"useRawDocstring"`
-	CustomMarkers       []Marker           `json:"customMarkers"`
+	MaxDepth            int      `json:"maxDepth"`
+	IgnoreTypes         []string `json:"ignoreTypes"`
+	IgnoreFields        []string `json:"ignoreFields"`
+	IgnoreGroupVersions []string `json:"ignoreGroupVersions"`
+	UseRawDocstring     bool     `json:"useRawDocstring"`
+	CustomMarkers       []Marker `json:"customMarkers"`
 	// CaseIgnoreAliases lists the naming conventions to derive and display as
 	// alternative field names whenever a struct field carries the json `case:ignore`
 	// tag option. When empty, no aliases are shown for such fields.
-	CaseIgnoreAliases   []NamingConvention `json:"caseIgnoreAliases"`
+	CaseIgnoreAliases []NamingConvention `json:"caseIgnoreAliases"`
 }
 
 type Marker struct {
