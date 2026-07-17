@@ -237,10 +237,18 @@ func (types TypeMap) InlineTypes(propagateReference func(original *Type, additio
 				}
 				numTypesToBeInlined += 1
 
-				embeddedType, ok := types[t.Fields[i].Type.UID]
+				fieldType := t.Fields[i].Type
+				// An embedded pointer (e.g. `*BearerAuth` with json:",inline")
+				// wraps the struct whose fields must be inlined; its UID
+				// differs from the struct's, so dereference before lookup or
+				// the fields are silently dropped from the rendered docs.
+				if fieldType.Kind == PointerKind && fieldType.UnderlyingType != nil {
+					fieldType = fieldType.UnderlyingType
+				}
+				embeddedType, ok := types[fieldType.UID]
 				if !ok {
 					zap.S().Warnw("Unable to find embedded type", "type", t,
-						"embeddedType", t.Fields[i].Type)
+						"embeddedType", fieldType)
 					continue
 				}
 
