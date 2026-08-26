@@ -338,6 +338,26 @@ func (p *processor) processType(pkg *loader.Package, parentType *types.Type, t g
 		typeDef.UnderlyingType = p.processType(pkg, typeDef, underlying, depth+1)
 		p.addReference(typeDef, typeDef.UnderlyingType)
 
+	case *gotypes.Alias:
+		if typeDef.Package != pkg.PkgPath {
+			imports := pkg.Imports()
+			importPkg, ok := imports[typeDef.Package]
+			if !ok {
+				zap.S().Warnw("Imported type cannot be found", "name", typeDef.Name, "package", typeDef.Package)
+				return typeDef
+			}
+			p.parser.NeedPackage(importPkg)
+			pkg = importPkg
+		}
+
+		typeDef.Kind = types.AliasKind
+		underlying := gotypes.Unalias(t)
+		if underlying.String() == "string" {
+			typeDef.EnumValues = lookupConstantValuesForAliasedType(pkg, typeDef.Name)
+		}
+		typeDef.UnderlyingType = p.processType(pkg, typeDef, underlying, depth+1)
+		p.addReference(typeDef, typeDef.UnderlyingType)
+
 	case *gotypes.Struct:
 		if parentType != nil {
 			// Rather than the parent being a Named type with a "raw" Struct as
