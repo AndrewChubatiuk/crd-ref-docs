@@ -37,8 +37,14 @@ type Embedded struct {
 type Embedded1 struct {
 	Embedded2 `json:",inline"`
 	// +hidefromdoc
-	E         string `json:"e,omitempty"`
-	EmbeddedX `json:",inline"`
+	E          string `json:"e,omitempty"`
+	EmbeddedX  `json:",inline"`
+	*EmbeddedP `json:",inline"`
+}
+
+// EmbeddedP tests that fields of an embedded pointer type are inlined.
+type EmbeddedP struct {
+	P string `json:"p,omitempty"`
 }
 type Embedded2 struct {
 	B         string `json:"b,omitempty"`
